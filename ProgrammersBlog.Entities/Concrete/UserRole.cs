@@ -1,6 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Identity;
-using ProgrammersBlog.Shared.Entities.Abstract;
+﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ProgrammersBlog.Entities.Concrete
 {
-    public class Role:IdentityRole<int>
+    public class UserRole:IdentityUserRole<int>
     {
- 
+
 
 
     }

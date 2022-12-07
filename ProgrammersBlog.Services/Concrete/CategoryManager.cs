@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ProgrammersBlog.Data.Abstract;
+using ProgrammersBlog.Data.Concrete;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Entities.Dtos;
 using ProgrammersBlog.Services.Abstract;
@@ -8,7 +9,7 @@ using ProgrammersBlog.Shared.Utilities.Results.ComplexType;
 using ProgrammersBlog.Shared.Utilities.Results.Concrete;
 using System;
 using System.Collections.Generic;
-
+using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace ProgrammersBlog.Services.Concrete
@@ -182,7 +183,8 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<CategoryDto>> UpdateAsync(CategoryUpdateDto categoryUpdateDto, string modifiedByName)
         {
-            var category = _mapper.Map<Category>(categoryUpdateDto);
+            var oldCategory = await _unitOfWork.Categories.GetAsync(c => c.Id == categoryUpdateDto.Id);
+            var category = _mapper.Map<CategoryUpdateDto,Category>(categoryUpdateDto,oldCategory);
             category.ModifiedByName = modifiedByName;
             var updatedCategory= await _unitOfWork.Categories.UpdateAsync(category);
             await _unitOfWork.SaveAsync();
@@ -192,10 +194,22 @@ namespace ProgrammersBlog.Services.Concrete
                 ResultStatus=ResultStatus.Success,
                 Message= $"{categoryUpdateDto.Name} adlı kategori başarı ile güncellenmiştir."
             });
-            //return new DataResult<CategoryDto>(ResultStatus.Error, "Kategori Bulunamadı", null);
 
         }
 
-
-    }
+        public async Task<IDataResult<CategoryUpdateDto>> GetCategoryUpdateDto(int categoryId)
+        {
+            var result = await _unitOfWork.Categories.AnyAsync(c => c.Id == categoryId);
+            if (result)
+            {
+                var category = await _unitOfWork.Categories.GetAsync(c => c.Id == categoryId);
+                var categoryUpdateDto = _mapper.Map<CategoryUpdateDto>(category);
+                return new DataResult<CategoryUpdateDto>(ResultStatus.Success, categoryUpdateDto);
+            }
+            else
+            {
+                return new DataResult<CategoryUpdateDto>(ResultStatus.Error, "Böyle bir kategori bulunamadı", null);
+            }
+        }
+    } 
 }

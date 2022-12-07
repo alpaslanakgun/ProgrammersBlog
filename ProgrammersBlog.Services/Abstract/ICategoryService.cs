@@ -13,6 +13,7 @@ namespace ProgrammersBlog.Services.Abstract
     {
 
         Task<IDataResult<CategoryDto>>GetAsync(int categoryId);
+        Task<IDataResult<CategoryUpdateDto>> GetCategoryUpdateDto(int categoryId);
         Task<IDataResult<CategoryListDto>> GetAllAsync();
         Task<IDataResult<CategoryListDto>> GetAllByNonDeletedAsync();
         Task<IDataResult<CategoryListDto>> GetAllByNonDeletedAndActiveAsync();
