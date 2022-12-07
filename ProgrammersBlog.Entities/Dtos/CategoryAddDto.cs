@@ -13,7 +13,7 @@ namespace ProgrammersBlog.Entities.Dtos
         [DisplayName("Kategori Adı")]
         [Required(ErrorMessage = "{0} boş geçilmemelidir.")]
         [MaxLength(70, ErrorMessage = "{0} {1} karekterden büyük olmamalıdır.")]
-        [MinLength(3, ErrorMessage = "{0} {1} karekterden az olmamalıdır.")]
+        [MinLength(3, ErrorMessage = "{0} {1} karekterden küçük olmamalıdır.")]
         public string Name { get; set; }
 
         [DisplayName("Kategori Açıklaması")]
