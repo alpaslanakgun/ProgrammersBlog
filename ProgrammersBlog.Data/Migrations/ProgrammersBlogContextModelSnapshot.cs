@@ -156,12 +156,12 @@ namespace ProgrammersBlog.Data.Migrations
                         {
                             Id = 1,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2022, 12, 7, 1, 38, 42, 78, DateTimeKind.Local).AddTicks(2587),
+                            CreatedDate = new DateTime(2022, 12, 28, 17, 16, 26, 648, DateTimeKind.Local).AddTicks(4065),
                             Description = "C# Programlama Dili ile ilgili En güncel Bilgiler",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2022, 12, 7, 1, 38, 42, 78, DateTimeKind.Local).AddTicks(3271),
+                            ModifiedDate = new DateTime(2022, 12, 28, 17, 16, 26, 648, DateTimeKind.Local).AddTicks(4811),
                             Name = "C#",
                             Note = "C# Blog Kategorisi"
                         },
@@ -169,12 +169,12 @@ namespace ProgrammersBlog.Data.Migrations
                         {
                             Id = 2,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2022, 12, 7, 1, 38, 42, 78, DateTimeKind.Local).AddTicks(3916),
+                            CreatedDate = new DateTime(2022, 12, 28, 17, 16, 26, 648, DateTimeKind.Local).AddTicks(5672),
                             Description = "C Programlama Dili ile ilgili En güncel Bilgiler",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2022, 12, 7, 1, 38, 42, 78, DateTimeKind.Local).AddTicks(3919),
+                            ModifiedDate = new DateTime(2022, 12, 28, 17, 16, 26, 648, DateTimeKind.Local).AddTicks(5674),
                             Name = "C",
                             Note = "C Blog Kategorisi"
                         },
@@ -182,12 +182,12 @@ namespace ProgrammersBlog.Data.Migrations
                         {
                             Id = 3,
                             CreatedByName = "InitialCreate",
-                            CreatedDate = new DateTime(2022, 12, 7, 1, 38, 42, 78, DateTimeKind.Local).AddTicks(3927),
+                            CreatedDate = new DateTime(2022, 12, 28, 17, 16, 26, 648, DateTimeKind.Local).AddTicks(5680),
                             Description = "Javascript Programlama Dili ile ilgili En güncel Bilgiler",
                             IsActive = true,
                             IsDeleted = false,
                             ModifiedByName = "InitialCreate",
-                            ModifiedDate = new DateTime(2022, 12, 7, 1, 38, 42, 78, DateTimeKind.Local).AddTicks(3930),
+                            ModifiedDate = new DateTime(2022, 12, 28, 17, 16, 26, 648, DateTimeKind.Local).AddTicks(5682),
                             Name = "Javascript",
                             Note = "Javascript Blog Kategorisi"
                         });
@@ -268,6 +268,22 @@ namespace ProgrammersBlog.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "4c3511f2-1dab-40ad-b7d4-ac2f269107df",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "caf232d3-8431-4203-abe6-31f26c7acbe8",
+                            Name = "Editor",
+                            NormalizedName = "EDITOR"
+                        });
                 });
 
             modelBuilder.Entity("ProgrammersBlog.Entities.Concrete.RoleClaim", b =>
@@ -363,6 +379,44 @@ namespace ProgrammersBlog.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ff4cdb44-674e-46ea-a3c8-aeab0b95ecfa",
+                            Email = "adminuser@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMINUSER@GMAIL.COM",
+                            NormalizedUserName = "ADMINUSER",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEN87oXlLfGSPDIN/fEpdNENtmXXDn8HKtl3KOB6Zj073Kx2zUByrhtXf4Dj9qROfg==",
+                            PhoneNumber = "+905555555555",
+                            PhoneNumberConfirmed = true,
+                            Picture = "defaultUser.png",
+                            SecurityStamp = "c8511a14-313e-4e4e-9552-c1af61d92f0b",
+                            TwoFactorEnabled = false,
+                            UserName = "adminuser"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "903a4820-7ca4-4611-9a5a-c417f3e988b6",
+                            Email = "editoruser@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EDITORUSER@GMAIL.COM",
+                            NormalizedUserName = "EDITORUSER",
+                            PasswordHash = "AQAAAAEAACcQAAAAELb10M169KTHptQ8V2789m1sYYg89C/TUioMfNSg11qjzz4LrxiqKVnIPxADjATXDw==",
+                            PhoneNumber = "+905555555555",
+                            PhoneNumberConfirmed = true,
+                            Picture = "defaultUser.png",
+                            SecurityStamp = "70bec16c-95a2-4250-885f-4c1a5dd5a252",
+                            TwoFactorEnabled = false,
+                            UserName = "editoruser"
+                        });
                 });
 
             modelBuilder.Entity("ProgrammersBlog.Entities.Concrete.UserClaim", b =>
@@ -424,6 +478,18 @@ namespace ProgrammersBlog.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("ProgrammersBlog.Entities.Concrete.UserToken", b =>

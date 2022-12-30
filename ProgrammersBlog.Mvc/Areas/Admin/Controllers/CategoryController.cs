@@ -12,11 +12,12 @@ using System.Threading.Tasks;
 namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles ="Admin,Editor")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
 
+        
         public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
@@ -35,6 +36,7 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CategoryAddDto categoryAddDto)
         {
+           
             if (ModelState.IsValid)
             {
                 var result = await _categoryService.AddAsync(categoryAddDto, "Alpaslan Akgün");

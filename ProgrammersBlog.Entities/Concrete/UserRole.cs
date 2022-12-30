@@ -11,6 +11,5 @@ namespace ProgrammersBlog.Entities.Concrete
     {
 
 
-
     }
 }

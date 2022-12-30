@@ -19,12 +19,16 @@ namespace ProgrammersBlog.Entities.Dtos
         [MaxLength(50, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
         [MinLength(3, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
         public string UserName { get; set; }
+
+
         [DisplayName("E-Posta Adresi")]
         [Required(ErrorMessage = "{0} boş geçilmemelidir.")]
         [MaxLength(100, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
         [MinLength(10, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+
  
         [DisplayName("Telefon Numarası")]
         [Required(ErrorMessage = "{0} boş geçilmemelidir.")]

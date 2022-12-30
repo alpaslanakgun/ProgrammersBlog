@@ -7,13 +7,16 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Contexts
 {
     public class ProgrammersBlogContext:IdentityDbContext<User,Role,int,UserClaim,UserRole,UserLogin,RoleClaim,UserToken>
     {
+     
         public DbSet<Article> Articles { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        public ProgrammersBlogContext(DbContextOptions<ProgrammersBlogContext>options):base(options)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-2DLIPQP\SQLEXPRESS;Database=ProgrammersBlog;Trusted_Connection=True;MultipleActiveResultSets=True");
+                
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ArticleMap());

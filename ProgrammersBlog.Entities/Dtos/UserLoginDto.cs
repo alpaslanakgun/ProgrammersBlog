@@ -11,8 +11,7 @@ namespace ProgrammersBlog.Entities.Dtos
     public class UserLoginDto
     {
 
-    
-        [DisplayName("E-Posta Adresi")]
+        [DisplayName("E-mail")]
         [Required(ErrorMessage = "{0} boş geçilmemelidir.")]
         [MaxLength(100, ErrorMessage = "{0} {1} karakterden büyük olmamalıdır.")]
         [MinLength(10, ErrorMessage = "{0} {1} karakterden küçük olmamalıdır.")]

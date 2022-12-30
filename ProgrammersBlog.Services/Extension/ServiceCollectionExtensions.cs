@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ProgrammersBlog.Data.Abstract;
 using ProgrammersBlog.Data.Concrete;
 using ProgrammersBlog.Data.Concrete.EntityFramework.Contexts;
@@ -11,9 +12,10 @@ namespace ProgrammersBlog.Services.Extension
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection LoadMyServices(this IServiceCollection serviceCollection)
+        //bak burası orası işte 
+        public static IServiceCollection LoadMyServices(this IServiceCollection serviceCollection,string connectionString)
         {
-            serviceCollection.AddDbContext<ProgrammersBlogContext>();
+            serviceCollection.AddDbContext<ProgrammersBlogContext>(options=>options.UseSqlServer(connectionString));
             serviceCollection.AddIdentity<User, Role>(options =>
             {
                 //User Password Options
