@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ProgrammersBlog.Data.Abstract;
-using ProgrammersBlog.Data.Concrete;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Entities.Dtos;
 using ProgrammersBlog.Services.Abstract;
@@ -9,8 +8,6 @@ using ProgrammersBlog.Shared.Utilities.Results.Abstract;
 using ProgrammersBlog.Shared.Utilities.Results.ComplexType;
 using ProgrammersBlog.Shared.Utilities.Results.Concrete;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace ProgrammersBlog.Services.Concrete
@@ -98,7 +95,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<CategoryListDto>> GetAllAsync()
         {
-            var categories = await _unitOfWork.Categories.GetAllAsync(null, c => c.Articles);
+            var categories = await _unitOfWork.Categories.GetAllAsync();
             if (categories.Count > -1)
             {
 
@@ -124,7 +121,7 @@ namespace ProgrammersBlog.Services.Concrete
 
         public async Task<IDataResult<CategoryListDto>> GetAllByNonDeletedAsync()
         {
-            var categories = await _unitOfWork.Categories.GetAllAsync(c => !c.IsDeleted, c => c.Articles);
+            var categories = await _unitOfWork.Categories.GetAllAsync(c=>!c.IsDeleted);
             if (categories.Count > -1)
             {
 
@@ -149,7 +146,7 @@ namespace ProgrammersBlog.Services.Concrete
         {
 
 
-            var categories = await _unitOfWork.Categories.GetAllAsync(c => !c.IsDeleted && c.IsActive, c => c.Articles);
+            var categories = await _unitOfWork.Categories.GetAllAsync(c => !c.IsDeleted && c.IsActive);
             if (categories.Count > -1)
             {
 
@@ -198,7 +195,13 @@ namespace ProgrammersBlog.Services.Concrete
 
         }
 
-        public async Task<IDataResult<CategoryUpdateDto>> GetCategoryUpdateDto(int categoryId)
+       
+        /// <summary>
+        /// Verilen ID parametresine ait kategorinin CategoryUpdateDto temsilini geriye döner
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns>Asenkron bir operasyon ile Task olarak işlem sonucu DataResult tipinde Geriye Döner</returns>
+        public async Task<IDataResult<CategoryUpdateDto>> GetCategoryUpdateDtoAsync(int categoryId)
         {
             var result = await _unitOfWork.Categories.AnyAsync(c => c.Id == categoryId);
             if (result)
@@ -212,5 +215,32 @@ namespace ProgrammersBlog.Services.Concrete
                 return new DataResult<CategoryUpdateDto>(ResultStatus.Error, Messages.CategoryMessage.NotFound(isPlural:false), null);
             }
         }
+
+        public async Task<IDataResult<int>> CountAsync()
+        {
+            var categoriesCount = await _unitOfWork.Categories.CountAsync();
+            if (categoriesCount>-1)
+            {
+                return new DataResult<int>(ResultStatus.Success, categoriesCount);
+            }
+            else
+            {
+                return new DataResult<int>(ResultStatus.Error, "Beklenmeyen bir hata ile karşılaşıldı", -1);
+            }
+        }
+
+        public async Task<IDataResult<int>> CountByNonDeletedAsync()
+        {
+            var categoriesCount = await _unitOfWork.Categories.CountAsync(c=>!c.IsDeleted);
+            if (categoriesCount > -1)
+            {
+                return new DataResult<int>(ResultStatus.Success, categoriesCount);
+            }
+            else
+            {
+                return new DataResult<int>(ResultStatus.Error, "Beklenmeyen bir hata ile karşılaşıldı", -1);
+            }
+        }
+
     } 
 }

@@ -1,5 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ProgrammersBlog.Entities.Concrete;
+using ProgrammersBlog.Mvc.Areas.Admin.Models;
+using ProgrammersBlog.Services.Abstract;
+using ProgrammersBlog.Shared.Utilities.Results.ComplexType;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
 {
@@ -7,9 +15,39 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
     [Authorize(Roles = "Admin,Editor")]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ICategoryService _categoryService;
+        private readonly IArticleService _articleService;
+        private readonly ICommentService _commentService;
+        private readonly UserManager<User> _userManager;
+        public HomeController(ICategoryService categoryService, IArticleService articleService, ICommentService commentService, UserManager<User> userManager)
         {
-            return View();
+            _categoryService = categoryService;
+            _articleService = articleService;
+            _commentService = commentService;
+            _userManager = userManager;
+        }
+
+  
+        public async Task<IActionResult> Index()
+        {
+            var categoriesCount = await _categoryService.CountByNonDeletedAsync();
+            var articlesCount = await _articleService.CountByNonDeletedAsync();
+            var commentsCount = await _commentService.CountByNonDeleted();
+            var usersCount = await _userManager.Users.CountAsync();
+            var articlesResult = await _articleService.GetAllAsync();
+            if (categoriesCount.ResultStatus==ResultStatus.Success&& articlesCount.ResultStatus==ResultStatus.Success&& commentsCount.ResultStatus==ResultStatus.Success&&usersCount>-1&& articlesResult.ResultStatus==ResultStatus.Success)
+            {
+                return View(new DashboardViewModel
+                {
+                    CategoriesCount=categoriesCount.Data,
+                    ArticlesCount=articlesCount.Data,
+                    CommentsCount=commentsCount.Data,
+                    UsersCount=usersCount,
+                    Articles= articlesResult.Data
+                });
+            }
+            return NotFound();
+       
         }
       
     }
