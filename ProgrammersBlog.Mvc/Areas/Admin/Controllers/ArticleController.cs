@@ -72,7 +72,6 @@ namespace ProgrammersBlog.Mvc.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        [HttpGet]
         public async Task<IActionResult> Update(int articleId)
         {
             var articleResult = await _articleService.GetArticleUpdateDtoAsync(articleId);
