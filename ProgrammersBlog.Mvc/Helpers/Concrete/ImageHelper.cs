@@ -6,6 +6,7 @@ using ProgrammersBlog.Shared.Utilities.Results.Abstract;
 using System.IO;
 using System;
 using System.Threading.Tasks;
+using ProgrammersBlog.Entities.ComplexTypes;
 using ProgrammersBlog.Services.Extension;
 using ProgrammersBlog.Shared.Utilities.Results.Concrete;
 using ProgrammersBlog.Shared.Utilities.Results.ComplexType;
@@ -16,7 +17,9 @@ namespace ProgrammersBlog.Mvc.Helpers.Concrete
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly string _wwwroot;
-        private readonly string imgFolder="img";
+        private readonly string imgFolder= "img";
+        private const string userImagesFolder = "userImages";
+        private const string postImagesFolder = "postImages";
 
         public ImageHelper(IWebHostEnvironment webHostEnvironment)
         {
@@ -26,8 +29,10 @@ namespace ProgrammersBlog.Mvc.Helpers.Concrete
 
       
 
-        public async Task<IDataResult<ImageUploadedDto>> UploadUserImage(string userName, IFormFile pictureFile, string folderName = "userImages")
+        public async Task<IDataResult<ImageUploadedDto>> Upload(string name, IFormFile pictureFile,PictureType pictureType, string folderName=null)
         {
+            folderName ??= pictureType == PictureType.User ? userImagesFolder : postImagesFolder;
+
             if (!Directory.Exists($"{_wwwroot}/{imgFolder}/{folderName}"))
             {
                 Directory.CreateDirectory($"{_wwwroot}/{imgFolder}/{folderName} ");
@@ -36,14 +41,19 @@ namespace ProgrammersBlog.Mvc.Helpers.Concrete
             string oldFileName = Path.GetFileNameWithoutExtension(pictureFile.FileName);
             //.png
             string fileExtensions = Path.GetExtension(pictureFile.FileName);
-            DateTime dateTime = DateTime.Now;
-            string newFileName = $"{userName}_{dateTime.FullDateAndTimeStringWithUnderscore()}{fileExtensions}";
+            var dateTime = DateTime.Now;
+            string newFileName = $"{name}_{dateTime.FullDateAndTimeStringWithUnderscore()}{fileExtensions}";
             var path = Path.Combine($"{_wwwroot}/{imgFolder}/{folderName}", newFileName);
             await using (var stream = new FileStream(path, FileMode.Create))
             {
                 await pictureFile.CopyToAsync(stream);
             }
-            return new DataResult<ImageUploadedDto>(ResultStatus.Success, $"{userName} adlı kullanıcının resimi başarıyla yüklenmiştir", new ImageUploadedDto
+
+            string message = pictureType == PictureType.User
+                ? $"{name} adlı kullanıcının resimi başarıyla yüklenmiştir"
+                : $"{name} adlı kullanıcının resimi başarıyla yüklenmiştir";
+
+;            return new DataResult<ImageUploadedDto>(ResultStatus.Success, message, new ImageUploadedDto
             {
                 FullName = $"{folderName}/{newFileName}",
                 OldFullName = oldFileName,

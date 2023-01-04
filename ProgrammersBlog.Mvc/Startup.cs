@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using ProgrammersBlog.Mvc.AutoMapper.Profiles;
 
 namespace ProgrammersBlog.Mvc
 {
@@ -40,9 +41,10 @@ namespace ProgrammersBlog.Mvc
             }); 
 
             services.AddSession();
-            services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile), typeof(UserProfile));
+            services.AddAutoMapper(typeof(CategoryProfile), typeof(ArticleProfile), typeof(UserProfile),typeof(ViewModelsProfile));
             services.LoadMyServices(connectionString:Configuration.GetConnectionString("LocalDb"));
             services.AddScoped<IImageHelper, ImageHelper>();
+            
             services.ConfigureApplicationCookie(options =>
             {
                 //login controller nerede ? 

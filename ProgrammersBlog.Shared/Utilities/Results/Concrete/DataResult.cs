@@ -32,7 +32,7 @@ namespace ProgrammersBlog.Shared.Utilities.Results.Concrete
 
         public T Data { get; }
 
-        public ResultStatus ResultStatus { get; }
+        public ResultStatus ResultStatus { get; set; }
 
         public string Message { get; }
 

@@ -75,13 +75,14 @@
             isRTL: false,
             showMonthAfterYear: false,
             yearSuffix: "",
-
+            duration: 1000,
+            showAnim: "drop",
+            showOptions:{direction:"down"},
+            minDate: -3,
+            maxDate: +3,
 
         });
     });
-
-    //    //JQueryUI-DatePicker
-
-
+    //JQueryUI-DatePicker
 
 })

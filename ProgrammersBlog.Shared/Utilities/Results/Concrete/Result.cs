@@ -27,7 +27,7 @@ namespace ProgrammersBlog.Shared.Utilities.Results.Concrete
             Message = message;
             Exception = exception; 
         }
-        public ResultStatus ResultStatus { get; }
+        public ResultStatus ResultStatus { get; set; }
 
         public string Message { get; }
 
